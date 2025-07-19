@@ -61,24 +61,24 @@ public class Main {
 
             if (userOption.equals(computerChoice)) {
                 Interface.header("EMPATE!", 42);
-                Interface.pressAnything();
+                Interface.scoreboard(wins, losses);
             } else if ((userOption.equals("Pedra") && computerChoice.equals("Tesoura")) ||
                     (userOption.equals("Papel") && computerChoice.equals("Pedra")) ||
                     (userOption.equals("Tesoura") && computerChoice.equals("Papel"))) {
                 Interface.header("VOCÊ GANHOU!", 42);
-                Interface.pressAnything();
                 wins = wins + 1;
+                Interface.scoreboard(wins, losses);
             } else {
                 Interface.header("VOCÊ PERDEU!", 42);
-                Interface.pressAnything();
                 losses = losses + 1;
+                Interface.scoreboard(wins, losses);
             }
         }
     }
 
     public static void playGame(String gameMode) {
         if  (gameMode.equals("1")) {
-            matchResult(gameMode, 0);
+            matchResult(gameMode, 1);
         }  else if (gameMode.equals("2")) {
             matchResult(gameMode, 2);
         } else if (gameMode.equals("3")) {
@@ -105,8 +105,8 @@ public class Main {
             playGame(gameMode);
         }  else {
             Interface.clearConsole(500);
-            Interface.header("FIM DE PARTIDA", 42);
-            Interface.pressAnything();
+            Interface.printCentered("FIM DA PARTIDA!", 42);
+            Interface.scoreboard(wins, losses);
             main(new String[0]);
         }
     }

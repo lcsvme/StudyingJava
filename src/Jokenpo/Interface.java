@@ -47,7 +47,7 @@ public class Interface {
         System.out.print("APERTE QUALQUER COISA PARA CONTINUAR.. ");
         Scanner input = new Scanner(System.in);
         input.nextLine();
-        Interface.clearConsole(500);
+        clearConsole(500);
     }
 
     public static boolean isInteger(String input) {
@@ -57,5 +57,11 @@ public class Interface {
             return false;
         }
         return true;
+    }
+
+    public static void scoreboard(Integer wins, Integer losses) {
+        String scoreboard = String.format("VOCÊ " + wins + " x " + losses + " COMPUTADOR");
+        header(scoreboard, 42);
+        pressAnything();
     }
 }
