@@ -3,6 +3,9 @@ import java.util.*;
 
 public class Main {
     static Scanner input = new Scanner(System.in);
+    static int wins = 0;
+    static int losses = 0;
+
     static List<String> options = Arrays.asList(
             "Pedra",
             "Papel",
@@ -10,20 +13,23 @@ public class Main {
             "Sair"
     );
 
-    public static boolean isInteger(String input) {
-        try {
-            Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
-    }
+    static List<String> menuOptions = Arrays.asList(
+            "Jogar",
+            "Sair"
+    );
+
+    static List<String> gameOptions = Arrays.asList(
+            "Partida Única",
+            "Melhor de 3",
+            "Melhor de 5",
+            "Sair"
+    );
 
     public static String getUserChoice(List<String> options, String title) {
         System.out.print("ESCOLHA UMA OPÇÃO: ");
         String choice = input.next();
 
-        if (isInteger(choice)) {
+        if (Interface.isInteger(choice)) {
             return choice;
         } else {
             System.out.println("Opção inválida! Tente novamente.");
@@ -55,22 +61,35 @@ public class Main {
 
             if (userOption.equals(computerChoice)) {
                 Interface.header("EMPATE!", 42);
+                Interface.pressAnything();
             } else if ((userOption.equals("Pedra") && computerChoice.equals("Tesoura")) ||
                     (userOption.equals("Papel") && computerChoice.equals("Pedra")) ||
                     (userOption.equals("Tesoura") && computerChoice.equals("Papel"))) {
                 Interface.header("VOCÊ GANHOU!", 42);
+                Interface.pressAnything();
+                wins = wins + 1;
             } else {
                 Interface.header("VOCÊ PERDEU!", 42);
+                Interface.pressAnything();
+                losses = losses + 1;
             }
-
-            System.out.print("APERTE QUALQUER COISA PARA CONTINUAR.. ");
-            input.nextLine();
-            Interface.clearConsole(500);
-            playGame();
         }
     }
 
-    public static void playGame() {
+    public static void playGame(String gameMode) {
+        if  (gameMode.equals("1")) {
+            matchResult(gameMode, 0);
+        }  else if (gameMode.equals("2")) {
+            matchResult(gameMode, 2);
+        } else if (gameMode.equals("3")) {
+            matchResult(gameMode, 3);
+        } else {
+            Interface.clearConsole(500);
+            Interface.header("SAINDO..", 42);
+        }
+    }
+
+    public static void startMatch() {
         Interface.header("PEDRA, PAPEL OU TESOURA", 42);
         Interface.menu(options);
         Interface.line((42));
@@ -79,22 +98,39 @@ public class Main {
         determineWinner(userChoice, computerChoice);
     }
 
+    public static void matchResult(String gameMode, Integer limit ) {
+        if (wins != limit && losses != limit) {
+            Interface.clearConsole(500);
+            startMatch();
+            playGame(gameMode);
+        }  else {
+            Interface.clearConsole(500);
+            Interface.header("FIM DE PARTIDA", 42);
+            Interface.pressAnything();
+            main(new String[0]);
+        }
+    }
+
     public static void main(String[] args) {
-        List<String> options = Arrays.asList(
-                "Jogar",
-                "Sair"
-        );
+
+        wins = 0;
+        losses = 0;
 
         Interface.header("JOKENPO", 42);
-        Interface.menu(options);
+        Interface.menu(menuOptions);
         Interface.line(42);
         String choice = getUserChoice(options, "JOKENPO");
+
         if (choice.equals("1")) {
             Interface.clearConsole(350);
-            playGame();
+            Interface.header("MODOS DE JOGO", 42);
+            Interface.menu(gameOptions);
+            Interface.line((42));
+            String gameMode = getUserChoice(gameOptions, choice);
+            playGame(gameMode);
         } else if (choice.equals("2")) {
             Interface.clearConsole(350);
-            Interface.header("Saindo do jogo...",42);
+            Interface.header("SAINDO..",42);
         }
     }
 }

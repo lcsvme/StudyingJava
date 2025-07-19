@@ -1,6 +1,7 @@
 package Jokenpo;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Interface {
     public static void clearConsole(int time) {
@@ -40,5 +41,21 @@ public class Interface {
         for (int i = 0; i < options.size(); i++) {
             System.out.printf("[%d]. %s%n", i + 1, options.get(i));
         }
+    }
+
+    public static void pressAnything() {
+        System.out.print("APERTE QUALQUER COISA PARA CONTINUAR.. ");
+        Scanner input = new Scanner(System.in);
+        input.nextLine();
+        Interface.clearConsole(500);
+    }
+
+    public static boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }
